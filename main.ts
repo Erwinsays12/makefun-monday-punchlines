@@ -16,6 +16,14 @@ const JOKE =
 
 const outPath = process.env.OUTPUT_PATH ?? "/output/entry.txt";
 
+// Self-check the competition's gate before writing: the entry must be
+// UTF-8 text of 1 to 200 characters, not only white space. Fail loudly
+// instead of submitting an invalid joke.
+if (JOKE.length < 1 || JOKE.length > 200 || JOKE.trim().length === 0) {
+  console.error(`Joke is ${JOKE.length} characters; the gate needs 1-200.`);
+  process.exit(1);
+}
+
 mkdirSync(dirname(outPath), { recursive: true });
 writeFileSync(outPath, JOKE, "utf8");
 console.log(`Wrote ${JOKE.length} characters to ${outPath}`);
